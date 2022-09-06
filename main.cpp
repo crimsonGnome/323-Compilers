@@ -23,7 +23,7 @@ int main(){
         std::string input;
         cout << "\nEnter a postfix expression with a $ at the end:\n";
         getline(cin, input);
-        cout << input << endl;
+        //cout << input << endl;
         
         PostFixExpression stacky(input);
         stacky.ReadStack();

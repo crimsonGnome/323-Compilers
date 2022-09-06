@@ -6,31 +6,23 @@
 
 PostFixExpression::PostFixExpression(std::string constructor){
     // Take input string and add words to a vector container (named list) for processing
-    
     int substringCount = 0;
     for(int i = 0; i < constructor.size(); ++i ){
-        if(constructor[i] != ' '){
+        if(constructor[i] == '$'){
+            std::string sub = constructor.substr(i- substringCount, substringCount);
+            if(substringCount != 0) list_.push_back(sub);
+            break;
+        }
+        else if(constructor[i] != ' '){
             ++substringCount;
-            std::cout << substringCount;
             continue;
         } else {
-            // If the char being read from constructor[i] is a whitespace,
-            if (substringCount == 0){
-                // Preventing any extra whitespaces from sending length-0 strings to list.
-                break;
-            } else {  // If there's been at least 1 non-whitespace char since the
-                      // last whitespace, send the substring to list.
-                std::string sub = constructor.substr(i - substringCount, substringCount);
-                std::cout << sub << "\n";
-                substringCount = 0;
-                list_.push_back(sub);
-            }
+            if(substringCount == 0) continue;
+            std::string sub = constructor.substr(i - substringCount, substringCount);
+            substringCount = 0;
+            list_.push_back(sub);
         }
     }
-    // (Runs if for some reason last term doesnt have white space between (should not happen))
-    // -1 stringCount to get the last variable 
-    std::string sub = constructor.substr(constructor.size() - substringCount, substringCount -1);
-    list_.push_back(sub);
 
     // Call Replace Strings Function (prcess all arguments)
     ReplaceStrings();
@@ -79,16 +71,16 @@ void PostFixExpression::SumStack(){
       numbers.pop();
       switch (list_[i][0]){
           case '+':
-            sum = temp1 + temp2;
+            sum = temp2 + temp1;
             break;
           case '-':
-            sum = temp1 - temp2;
+            sum = temp2 - temp1;
             break;
           case '*':
-            sum = temp1 * temp2;
+            sum = temp2 * temp1;
             break;
           default:
-            sum = temp1 / temp2;
+            sum = temp2 / temp1;
       }   // Expression 7 8 - should evaluate to 8 - 7 == 1
       // push new sum onto stack
       numbers.push(sum);

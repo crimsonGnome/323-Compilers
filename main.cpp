@@ -24,6 +24,7 @@ int main(){
         cout << "\nEnter a postfix expression with a $ at the end:\n";
         getline(cin, input);
         cout << input << endl;
+        
         PostFixExpression stacky(input);
         stacky.ReadStack();
         cout << "\n     Expression Value = " << stacky.Sum() << endl

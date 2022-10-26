@@ -29,7 +29,7 @@ stack<char> readStack(stack<char> input){
     return returnStack;
 }
 
-bool validLanguage2(string list,vector<vector<string>> parsingTable ){
+bool validLanguage1(string list,vector<vector<string>> parsingTable ){
     // Perform the mathematical evaluation of the expression by creating
     // the newly-processed stack of integers (named numbers)
 
@@ -125,7 +125,7 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
     
 };
 
-bool validLanguage(string list,vector<vector<string>> parsingTable ){
+bool validLanguage2(string list,vector<vector<string>> parsingTable ){
     // Perform the mathematical evaluation of the expression by creating
     // the newly-processed stack of integers (named numbers)
 

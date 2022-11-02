@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------
 //    Group names   :Joseph Eggers, Maxwell Trotter
 //    Assigment     : No.1
-//    Due Date      : 8/30/22
+//    Due Date      : 10/25/22
 // Purpose: this program reads an expression in postfix form, evaluates the expression
 // and dispalys its value 
 // --------------------------------------------------------------------
@@ -29,7 +29,7 @@ stack<char> readStack(stack<char> input){
     return returnStack;
 }
 
-bool validLanguage1(string list,vector<vector<string>> parsingTable ){
+bool validLanguage(string list,vector<vector<string>> parsingTable ){
     // Perform the mathematical evaluation of the expression by creating
     // the newly-processed stack of integers (named numbers)
 
@@ -76,10 +76,10 @@ bool validLanguage1(string list,vector<vector<string>> parsingTable ){
       while(notMatched && !currentStack.empty()){
         char row = currentStack.top();
         currentStack.pop();
-        cout << "row " << row << " looking for " << list[i] << endl;
+        //cout << "row " << row << " looking for " << list[i] << endl;
         if(list[i] == '$' && row == '$') return true;
         if(list[i] == row){
-          currentStack.pop();
+          //cout << "1st if statement that pops" <<currentStack.top();
           notMatched = false;
           break;
         }
@@ -105,6 +105,7 @@ bool validLanguage1(string list,vector<vector<string>> parsingTable ){
         }
         string temp = parsingTable[rowTable][identy];
         if(temp == "null") continue;
+        if(list[i] == '$' && temp[0] == '$') return true;
         if(temp == "") return false;
         for(int j = temp.size() -1; j >= 0; --j){
             currentStack.push(temp[j]);
@@ -132,7 +133,7 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
     int sum = 0;
     std::stack<char> currentStack;
     currentStack.push('$');
-    currentStack.push('E');
+    currentStack.push('S');
     // loop through string
     for(int i = 0; i < list.size(); ++i){
       bool notMatched = true;
@@ -165,7 +166,7 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
           identy = 7;
           break;
         case '$':
-          identy = 7;
+          identy = 8;
           break;
         default:
           return false;
@@ -175,10 +176,10 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
       while(notMatched && !currentStack.empty()){
         char row = currentStack.top();
         currentStack.pop();
-        cout << "row " << row << " looking for " << list[i] << endl;
+        //cout << "row " << row << " looking for " << list[i] << endl;
         if(list[i] == '$' && row == '$') return true;
         if(list[i] == row){
-          currentStack.pop();
+          //cout << "1st if statement that pops" <<currentStack.top();
           notMatched = false;
           break;
         }
@@ -199,16 +200,17 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
             rowTable = 4;
             break;
           case 'R':
-            rowTable = 4;
+            rowTable = 5;
             break;
           case 'F':
-            rowTable = 4;
+            rowTable = 6;
             break;
           default:
             return false;
             break;
         }
         string temp = parsingTable[rowTable][identy];
+        if(list[i] == '$' && temp[0] == '$') return true;
         if(temp == "null") continue;
         if(temp == "") return false;
         for(int j = temp.size() -1; j >= 0; --j){
@@ -232,33 +234,60 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
 
 int main(){
     vector<vector<string>> parsingTable{{"TQ", "", "", "TQ", "","","",""},{"", "+TQ", "", "", "null","null","-TQ",""},{"FR", "", "", "FR", "","","",""},{"", "null", "*FR", "", "null","null","null","FR"},{"i", "", "", "(E)", "","","",""}};
-    vector<vector<string>> parsingTable2{{"aW", "", "", "", "","","","",""},{"","=E", "", "", "", "","","",""},{"TQ", "", "", "", "","","TQ","",""},{"", "","+TQ", "-TQ", "", "","","null","null"},{"FR","", "", "", "", "","FR","",""},{"","", "null", "null", "+FR", "/FR","","null","null"},{"a","", "", "", "", "","(E)","",""}};
-    string input1 = "(i*i)*i$";
+    vector<vector<string>> parsingTable2{{"aW", "", "", "", "","","","",""},{"","=E", "", "", "", "","","",""},{"TQ", "", "", "", "","","TQ","",""},{"", "","+TQ", "-TQ", "", "","","null","null"},{"FR","", "", "", "", "","FR","",""},{"","", "null", "null", "*FR", "/FR","","null","null"},{"a","", "", "", "", "","(E)","",""}};
+    string input1 = "(i+i)*i$";
     string input2 = "i*(i-i)$";
     string input3 = "i(i+i)$";
     bool input1answer = validLanguage(input1, parsingTable);
-    bool input2answer = validLanguage(input2, parsingTable);
-    bool input3answer = validLanguage(input3, parsingTable);
-
+    
     //Block 1
     if(input1answer){
-      cout << input1 << " VALID" << endl;
+      cout << endl << input1 << " VALID" << endl;
     } else {
-      cout << input1 << " REJECTED" << endl;
+      cout << endl << input1 << " REJECTED" << endl;
     }
-        
-     if(input2answer){
-      cout << input2 << " VALID" << endl;
-    } else {
-      cout << input2 << " REJECTED" << endl;
-    }
+    bool input2answer = validLanguage(input2, parsingTable);
     
-     if(input3answer){
-      cout << input3 << " VALID" << endl;
+
+     if(input2answer){
+      cout << endl << input2 << " VALID" << endl;
     } else {
-      cout << input3 << " REJECTED" << endl;
+      cout << endl << input2 << " REJECTED" << endl;
+    }
+    bool input3answer = validLanguage(input3, parsingTable);
+     if(input3answer){
+      cout << endl << input3 << " VALID" << endl;
+    } else {
+      cout << endl << input3 << " REJECTED" << endl;
     }
   
+
+    // Block 2
+    string input4 = "a=(a+a)*a$";
+    string input5 = "a=a*(a-a)$";
+    string input6 = "a=(a+a)a$";
+    bool input4answer = validLanguage2(input4, parsingTable2);
+    
+
+    if(input4answer){
+      cout << endl << input4 << " VALID" << endl;
+    } else {
+      cout << endl << input4 << " REJECTED" << endl;
+    }
+    bool input5answer = validLanguage2(input5, parsingTable2);
+    
+     if(input5answer){
+      cout << endl << input5 << " VALID" << endl;
+    } else {
+      cout << endl << input5 << " REJECTED" << endl;
+    }
+    bool input6answer = validLanguage2(input6, parsingTable2);
+     if(input6answer){
+      cout << endl << input6 << " VALID" << endl;
+    } else {
+      cout << endl << input6 << " REJECTED" << endl;
+    }
+
     return 0;
 
 }

@@ -44,28 +44,28 @@ bool validLanguage(string list,vector<vector<string>> parsingTable ){
       int identy = 0;
       int rowTable;
       switch(list[i]){
-        case 'a':
+        case 'i':
           identy = 0;
           break;
         case '+':
           identy = 1;
           break;
-        case '-':
+        case '*':
           identy = 2;
           break;
-        case '*':
+        case '(':
           identy = 3;
           break;
-        case '/':
+        case ')':
           identy = 4;
           break;
-        case '(':
+        case '$':
           identy = 5;
           break;
-        case ')':
+        case '-':
           identy = 6;
           break;
-        case '$':
+        case '/':
           identy = 7;
           break;
         default:
@@ -233,7 +233,7 @@ bool validLanguage2(string list,vector<vector<string>> parsingTable ){
 };
 
 int main(){
-    vector<vector<string>> parsingTable{{"TQ", "", "", "", "","TQ","",""},{"", "+TQ", "-TQ", "", "","","null","null"},{"FR", "", "", "", "","FR","",""},{"", "null", "null", "*FR", "/FR","","null","null"},{"a", "", "", "", "","(E)","",""}};
+    vector<vector<string>> parsingTable{{"TQ", "", "", "TQ", "","","",""},{"", "+TQ", "", "", "null","null","-TQ",""},{"FR", "", "", "FR", "","","",""},{"", "null", "*FR", "", "null","null","null","FR"},{"i", "", "", "(E)", "","","",""}};
     vector<vector<string>> parsingTable2{{"aW", "", "", "", "","","","",""},{"","=E", "", "", "", "","","",""},{"TQ", "", "", "", "","","TQ","",""},{"", "","+TQ", "-TQ", "", "","","null","null"},{"FR","", "", "", "", "","FR","",""},{"","", "null", "null", "*FR", "/FR","","null","null"},{"a","", "", "", "", "","(E)","",""}};
     string input1 = "(i+i)*i$";
     string input2 = "i*(i-i)$";
@@ -264,9 +264,9 @@ int main(){
 
     // Block 2
     string input4 = "(a+a)*a$";
-    string input5 = "a*(a/a)$";
-    string input6 = "a(a+a)$";
-    bool input4answer = validLanguage(input4, parsingTable);
+    string input5 = "a*(a/a)"$;
+    string input6 = "a=(a+a)a$";
+    bool input4answer = validLanguage2(input4, parsingTable2);
     
 
     if(input4answer){
@@ -274,14 +274,14 @@ int main(){
     } else {
       cout << endl << input4 << " REJECTED" << endl;
     }
-    bool input5answer = validLanguage(input5, parsingTable);
+    bool input5answer = validLanguage2(input5, parsingTable2);
     
      if(input5answer){
       cout << endl << input5 << " VALID" << endl;
     } else {
       cout << endl << input5 << " REJECTED" << endl;
     }
-    bool input6answer = validLanguage(input6, parsingTable);
+    bool input6answer = validLanguage2(input6, parsingTable2);
      if(input6answer){
       cout << endl << input6 << " VALID" << endl;
     } else {
